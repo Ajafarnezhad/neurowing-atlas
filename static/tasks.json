@@ -1,0 +1,178 @@
+[
+  {
+    "id": "light",
+    "title": "دوستِ روشنایی",
+    "goal": "به نور برس و کنار آن آرام بگیر.",
+    "description": "به نور برس و کنار آن آرام بگیر.",
+    "target": "light",
+    "duration": 30,
+    "kind": "flight",
+    "difficulty": "آسان",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "food",
+    "title": "وقت غذا",
+    "goal": "غذای سبز را پیدا کن و روی آن فرود بیا.",
+    "description": "غذای سبز را پیدا کن و روی آن فرود بیا.",
+    "target": "food",
+    "duration": 30,
+    "kind": "flight",
+    "difficulty": "آسان",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "odor",
+    "title": "ردِ عطر",
+    "goal": "منبع بوی بنفش را پیدا کن.",
+    "description": "منبع بوی بنفش را پیدا کن.",
+    "target": "odorA",
+    "duration": 30,
+    "kind": "flight",
+    "difficulty": "آسان",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "wind",
+    "title": "پرواز در باد",
+    "goal": "با وجود باد به غذا برس؛ شدت باد را تغییر بده.",
+    "description": "با وجود باد به غذا برس؛ شدت باد را تغییر بده.",
+    "target": "food",
+    "duration": 40,
+    "kind": "flight",
+    "difficulty": "آسان",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "heat",
+    "title": "جای خنک",
+    "goal": "از ناحیهٔ گرم فاصله بگیر و به غذا برس.",
+    "description": "از ناحیهٔ گرم فاصله بگیر و به غذا برس.",
+    "target": "food",
+    "duration": 40,
+    "kind": "flight",
+    "difficulty": "آسان",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "touch",
+    "title": "لمس و ادامه",
+    "goal": "پس از لمس کوتاه، مسیر رسیدن به غذا را ادامه بده.",
+    "description": "پس از لمس کوتاه، مسیر رسیدن به غذا را ادامه بده.",
+    "target": "food",
+    "duration": 35,
+    "kind": "flight",
+    "difficulty": "آسان",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "slalom",
+    "title": "بین سنگ‌ها",
+    "goal": "از کنار سه مانع عبور کن و به نور برس.",
+    "description": "از کنار سه مانع عبور کن و به نور برس.",
+    "target": "light",
+    "duration": 50,
+    "kind": "flight",
+    "difficulty": "متوسط",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "delivery",
+    "title": "پیک کوچک",
+    "goal": "به‌ترتیب بو، نور و غذا را پیدا کن.",
+    "description": "به‌ترتیب بو، نور و غذا را پیدا کن.",
+    "target": "food",
+    "duration": 65,
+    "kind": "flight",
+    "difficulty": "متوسط",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "return",
+    "title": "رفت و برگشت",
+    "goal": "به غذا برو و دوباره به خانه برگرد.",
+    "description": "به غذا برو و دوباره به خانه برگرد.",
+    "target": "food",
+    "duration": 60,
+    "kind": "flight",
+    "difficulty": "متوسط",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "switch",
+    "title": "هدف تازه",
+    "goal": "ابتدا نور را پیدا کن؛ بعد به سمت بو برو.",
+    "description": "ابتدا نور را پیدا کن؛ بعد به سمت بو برو.",
+    "target": "light",
+    "duration": 55,
+    "kind": "flight",
+    "difficulty": "متوسط",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "stop",
+    "title": "ایست و پرواز",
+    "goal": "وقتی نشان ایست آمد مکث کن، سپس به غذا برس.",
+    "description": "وقتی نشان ایست آمد مکث کن، سپس به غذا برس.",
+    "target": "food",
+    "duration": 40,
+    "kind": "flight",
+    "difficulty": "متوسط",
+    "learning_focus": "تمرین هدایت • آزمون بدون کمک مربی"
+  },
+  {
+    "id": "eight",
+    "title": "رقص هشت",
+    "goal": "مسیر عدد ۸ را با پرواز دنبال کن.",
+    "description": "مسیر عدد ۸ را با پرواز دنبال کن.",
+    "target": "food",
+    "duration": 100,
+    "kind": "flight",
+    "difficulty": "سخت",
+    "learning_focus": "یادگیری دنبال‌کردن مسیر • خط کمرنگ = راهنما"
+  },
+  {
+    "id": "heart",
+    "title": "یک قلب برای تو",
+    "goal": "با رد پرواز یک قلب بکش.",
+    "description": "با رد پرواز یک قلب بکش.",
+    "target": "food",
+    "duration": 100,
+    "kind": "flight",
+    "difficulty": "سخت",
+    "learning_focus": "یادگیری دنبال‌کردن مسیر • خط کمرنگ = راهنما"
+  },
+  {
+    "id": "letter",
+    "title": "حرف A",
+    "goal": "حرف A را با مسیر پرواز بنویس.",
+    "description": "حرف A را با مسیر پرواز بنویس.",
+    "target": "food",
+    "duration": 100,
+    "kind": "flight",
+    "difficulty": "سخت",
+    "learning_focus": "یادگیری دنبال‌کردن مسیر • خط کمرنگ = راهنما"
+  },
+  {
+    "id": "message",
+    "title": "love you",
+    "goal": "با رد پرواز بنویس: love you",
+    "description": "با رد پرواز بنویس: love you",
+    "target": "food",
+    "duration": 180,
+    "kind": "flight",
+    "difficulty": "سخت",
+    "learning_focus": "یادگیری دنبال‌کردن مسیر • خط کمرنگ = راهنما"
+  },
+  {
+    "id": "hello",
+    "title": "hello Amirhossein",
+    "goal": "با رد پرواز بنویس: hello Amirhossein",
+    "description": "با رد پرواز بنویس: hello Amirhossein",
+    "target": "food",
+    "duration": 260,
+    "kind": "flight",
+    "difficulty": "سخت",
+    "learning_focus": "یادگیری دنبال‌کردن مسیر • خط کمرنگ = راهنما"
+  }
+]

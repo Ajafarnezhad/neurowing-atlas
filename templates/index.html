@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NeuroWing Atlas</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/lab.css">
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="logo">🪰</div><div><b>NeuroWing Atlas</b><small data-i18n="header.subtitle">18 Interactive Experiences · Custom Tasks · Real Connectome Data</small></div><button class="btn" id="langBtn" data-i18n="header.lang_btn" title="Switch language / تغییر زبان" style="margin-inline-start:8px">EN</button></div>
+  <div class="search"><input id="searchInput" data-i18n-placeholder="header.search_placeholder" placeholder="Root ID، Label، Cell Type…"><button class="btn primary" id="searchBtn" data-i18n="header.search_btn">جستجو</button></div>
+  <div class="chips"><span class="chip" id="apiChip">API…</span><span class="chip" id="sourceChip">0 sources</span><span class="chip" id="atlasChip">Atlas…</span><span class="chip" id="graphChip">0 nodes</span></div>
+</header>
+
+<div class="work">
+<aside class="side left">
+  <div class="head"><b data-i18n="left.head_title">پژوهش و طراحی آزمایش</b><small data-i18n="left.head_sub">Research Workspace</small></div>
+  <div class="tabs">
+    <button class="tab on" data-left="taskPane" data-i18n="tabs.tasks">🎯 تسک‌ها</button>
+    <button class="tab" data-left="searchPane" data-i18n="tabs.neurons">🧠 نورون‌ها</button>
+    <button class="tab" data-left="pathPane" data-i18n="tabs.path">↝ مسیر</button>
+    <button class="tab" data-left="mapPane" data-i18n="tabs.map">🪰 نگاشت</button>
+    <button class="tab" data-left="customPane" data-i18n="tabs.custom">＋ سفارشی</button>
+  </div>
+
+  <div class="pane" id="searchPane">
+    <div class="section">
+      <div class="grid2"><button class="btn" id="autoMapBtn">Auto-map</button><button class="btn" id="diagBtn">Diagnostics</button></div>
+      <pre id="diagText" class="detail mono"></pre>
+    </div>
+    <div id="searchResults"><div class="empty" data-i18n="search.empty">نورون یا Cell Type را جستجو کن.</div></div>
+  </div>
+
+  <div class="pane" id="pathPane">
+    <div class="section"><h3 data-i18n="path.heading">مسیر ساختاری بین دو نورون</h3>
+      <input class="input full mono" id="pathFrom" data-i18n-placeholder="path.from_ph" placeholder="From Root ID">
+      <input class="input full mono" id="pathTo" data-i18n-placeholder="path.to_ph" placeholder="To Root ID" style="margin-top:5px">
+      <div class="grid3" style="margin-top:5px">
+        <select class="select" id="pathDepth"><option>3</option><option selected>5</option><option>7</option></select>
+        <select class="select" id="pathBranch"><option>5</option><option selected>10</option><option>20</option></select>
+        <input class="input" id="pathMin" value="5">
+      </div>
+      <button class="btn primary full" id="findPathBtn" data-i18n="path.find_btn" style="margin-top:6px">پیدا کردن مسیر</button>
+      <div class="note" data-i18n="path.note" style="margin-top:6px">مسیر بر اساس گراف ساختاری و synapse count است، نه اثبات مسیر عملکردی در مغز زنده.</div>
+    </div>
+    <div id="pathResults"></div>
+  </div>
+
+  <div class="pane" id="mapPane">
+    <div class="section"><h3 data-i18n="map.heading">نگاشت نورون‌های واقعی به بدن مجازی</h3>
+      <div class="note" data-i18n="map.note">هر کانال می‌تواند چند Root ID داشته باشد. Auto-map بر اساس Label و topology یک پیشنهاد heuristic می‌دهد؛ برای پژوهش دقیق، نگاشت را دستی اصلاح کن.</div>
+      <div class="grid2" style="margin-top:6px"><button class="btn primary" id="autoMapBtn2">Auto-map</button><button class="btn red" id="clearMapBtn" data-i18n="map.clear">پاک‌کردن</button></div>
+    </div>
+    <div id="channels"></div>
+  </div>
+
+  <div class="pane on" id="taskPane">
+    <div class="taskHero">
+      <div class="heroTitle" data-i18n="task.hero_title">از اینجا شروع کن</div>
+      <div class="guideSteps"><span><b>۱</b> <span data-i18n="task.step1">تسک را انتخاب کن</span></span><span><b>۲</b> <span data-i18n="task.step2">اجرا را بزن</span></span><span><b>۳</b> <span data-i18n="task.step3">حرکت مگس + مسیر مغز را ببین</span></span></div>
+      <button class="btn green full heroRun" id="quickRunBtn" data-i18n="task.hero_run">▶ اجرای تسک انتخاب‌شده</button>
+      <div class="heroHint" data-i18n="task.hero_hint">Atlas لازم نیست آماده باشد؛ شبیه‌سازی با Connectome همین حالا اجرا می‌شود.</div>
+    </div>
+    <div class="section">
+      <select class="select full" id="taskFilter">
+        <option value="all" data-i18n="task.filter_all">همه تجربه‌ها</option><option data-i18n="task.filter_easy">آسان</option><option data-i18n="task.filter_medium">متوسط</option><option data-i18n="task.filter_hard">سخت</option>
+      </select>
+      <div style="margin-top:6px"><b id="taskTitle" data-i18n="task.select_prompt">یک تسک انتخاب کن</b><div id="taskDesc" class="detail" style="margin-top:4px"></div></div>
+      <div class="grid2" style="margin-top:6px"><button class="btn green" id="startTaskBtn" data-i18n="task.start">▶ شروع تسک</button><button class="btn red" id="stopTaskBtn" data-i18n="task.stop">■ توقف</button></div>
+      <div class="taskRunStatus">
+        <div><span id="taskPhase" data-i18n="task.status_ready">آماده</span><b id="taskClock">0.0s</b></div>
+        <progress id="taskProgress" max="100" value="0"></progress>
+        <div class="miniStats"><span><span data-i18n="task.active_path">مسیر فعال:</span> <b id="activePathCount">0</b></span><span><span data-i18n="task.assist_label">کمک مربی:</span> <b id="assistRead">65%</b></span></div>
+      </div>
+      <div class="ctrl assistCtrl"><div class="ctrlTop"><span data-i18n="task.assist_title">کمک مربی برای حرکت قابل مشاهده</span><b id="assistBase">65%</b></div><input id="assist" type="range" min="0" max="1" step=".05" value=".65"><div class="detail" data-i18n="task.assist_note">در شروع تسک، یک Teacher controller به موتور کمک می‌کند؛ با Episodeهای بعدی اثرش کاهش می‌یابد. این بخش مدل آزمایشی است.</div></div>
+      <div class="grid2" style="margin-top:5px"><button class="btn amber" id="rewardBtn" data-i18n="task.reward">+ پاداش دستی</button><button class="btn red" id="punishBtn" data-i18n="task.punish">− تنبیه دستی</button></div>
+      <div class="grid2" style="margin-top:5px"><button class="btn" id="exportSessionBtn">Export Session</button><label class="btn" style="text-align:center">Import Session<input type="file" id="importSessionFile" accept=".json" hidden></label></div>
+      <div class="taskStat" style="margin-top:7px">
+        <div><small>Episode</small><b id="episode">0</b></div>
+        <div><small>Reward now</small><b id="rewardNow">0.000</b></div>
+        <div><small>Total</small><b id="rewardSum">0.00</b></div>
+        <div><small>Plastic</small><b id="plasticCount">0</b></div>
+      </div>
+    </div>
+    <div id="taskList"></div>
+    <div class="section"><h3 data-i18n="task.plastic_title">Edgeهای تغییر یافته</h3><div id="plasticList"><div class="empty" data-i18n="task.plastic_empty">هنوز تغییری نیست.</div></div></div>
+  </div>
+
+  <div class="pane" id="customPane">
+    <div class="section"><h3 data-i18n="custom.title">Task Builder سفارشی</h3>
+      <input class="input full" id="customTitle" data-i18n-placeholder="custom.name_ph" placeholder="نام تسک">
+      <select class="select full" id="customKind" style="margin-top:5px">
+        <option value="drive" data-i18n="custom.kind_drive">رانندگی در مسیر</option><option value="parallel_park" data-i18n="custom.kind_park">پارک دوبل</option><option value="square" data-i18n="custom.kind_square">مسیر مربعی</option>
+        <option value="zigzag" data-i18n="custom.kind_zigzag">زیگزاگ</option><option value="slalom" data-i18n="custom.kind_slalom">اسلالوم</option><option value="waypoints" data-i18n="custom.kind_waypoints">نقاط دلخواه</option>
+      </select>
+      <select class="select full" id="customTarget" style="margin-top:5px"><option value="light" data-i18n="custom.target_light">هدف: نور</option><option value="food" data-i18n="custom.target_food">هدف: غذا</option><option value="odorA" data-i18n="custom.target_odorA">هدف: بوی A</option><option value="odorB" data-i18n="custom.target_odorB">هدف: بوی B</option></select>
+      <input class="input full" id="customGoal" data-i18n-placeholder="custom.goal_ph" placeholder="هدف تسک" style="margin-top:5px">
+      <textarea class="input full" id="customDesc" rows="4" data-i18n-placeholder="custom.desc_ph" placeholder="توضیح فارسی آزمایش" style="margin-top:5px"></textarea>
+      <textarea class="input full mono" id="customWaypoints" rows="3" data-i18n-placeholder="custom.waypoints_ph" placeholder="نقاط اختیاری: 0.15,0.80 | 0.50,0.25 | 0.85,0.70" style="margin-top:5px"></textarea>
+      <div class="grid2" style="margin-top:5px"><input class="input" id="customDuration" value="30" title="Duration"><input class="input" id="customScale" value="1" title="Reward scale"></div>
+      <button class="btn green full" id="saveCustomBtn" data-i18n="custom.save" style="margin-top:6px">ذخیره تسک سفارشی</button>
+      <div class="note" data-i18n="custom.note" style="margin-top:6px">ساختار تسک شامل الگوی حرکت یا نقاط x,y، هدف و زمان است. پس از ذخیره، تسک انتخاب می‌شود و با موتور یادگیری اجرا خواهد شد.</div>
+    </div>
+  </div>
+</aside>
+
+<main class="center">
+  <div class="toolbar" id="mainToolbar">
+    <button class="btn mode on" data-mode="connectome">Connectome</button>
+    <button class="btn mode" data-mode="sim" data-i18n="toolbar.sim">مگس + مغز</button>
+    <button class="btn mode" data-mode="learn">Learning</button>
+    <button class="btn mode" data-mode="swc">SWC Detail</button>
+    <span class="spacer"></span>
+    <button class="btn" id="advancedBtn" data-i18n="toolbar.graph_settings">⚙ تنظیمات گراف</button>
+    <label data-i18n="toolbar.source">Source</label><select class="select" id="source"></select>
+    <label class="advancedCtl" data-i18n="toolbar.top">Top</label><select class="select advancedCtl" id="topk"><option>50</option><option selected>150</option><option>300</option><option>500</option><option>1000</option><option>2000</option></select>
+    <label class="advancedCtl" data-i18n="toolbar.depth">Depth</label><select class="select advancedCtl" id="depth"><option selected>1</option><option>2</option><option>3</option></select>
+    <label class="advancedCtl" data-i18n="toolbar.maxn">Max N</label><select class="select advancedCtl" id="maxNodes"><option>500</option><option selected>1500</option><option>3000</option><option>5000</option><option>10000</option></select>
+    <label class="advancedCtl" data-i18n="toolbar.min">Min</label><input class="input advancedCtl" id="minSyn" value="5">
+    <button class="btn" id="reloadBtn">↻</button><button class="btn" id="fitBtn">Fit</button><button class="btn" id="pngBtn">PNG</button>
+  </div>
+
+  <div class="stage" id="stage">
+    <canvas id="atlasCanvas"></canvas>
+    <canvas id="brainCanvas"></canvas>
+    <div class="float atlasHud">
+      <div><b data-i18n="atlas.title">Full SWC Atlas</b> · <span id="atlasState">...</span></div>
+      <div style="display:flex;gap:4px;margin-top:4px;align-items:center">
+        <select class="select" id="atlasLod"><option>32</option><option selected>64</option><option>96</option><option>128</option></select>
+        <select class="select" id="atlasWorkers" title="Workers"><option>2</option><option selected>4</option><option>6</option><option>8</option></select>
+        <button class="btn" id="atlasBuildBtn" data-i18n="atlas.build">ساخت Atlas</button>
+        <select class="select" id="atlasLoadCount"><option value="1000">1K</option><option value="5000" selected>5K</option><option value="20000">20K</option><option value="all">ALL</option></select>
+        <button class="btn" id="atlasLoadBtn" data-i18n="atlas.load">Load</button><button class="btn" id="atlasClearBtn" data-i18n="atlas.clear">Clear</button>
+      </div>
+      <progress id="atlasProgress" max="100" value="0" style="width:100%;height:5px"></progress>
+      <div><span data-i18n="atlas.loaded">Loaded:</span> <span id="atlasLoaded">0</span></div>
+    </div>
+    <div class="float legend" data-i18n="legend.text">خاکستری: کل SWC · سفید: انتخاب · صورتی: فعالیت · سبز: مسیر · نقاط متحرک: جریان فعال</div>
+    <div class="float liveBadge">LIVE: <span id="liveTaskName">Task Lab</span></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="arena" id="arena">
+      <canvas id="arenaCanvas"></canvas>
+      <div class="float" style="top:7px;right:7px" id="flyHud">Fly</div>
+      <div class="arenaControls">
+        <button class="btn primary" id="lightBtn" data-i18n="arena.light">💡 نور</button><button class="btn violet" id="odorBtn" data-i18n="arena.odor">◉ بو</button><button class="btn amber" id="touchBtn" data-i18n="arena.touch">✦ لمس</button><button class="btn green" id="simPlayBtn" data-i18n="arena.run">▶ اجرا</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dock">
+    <div class="dockp"><h3 data-i18n="dock.inputs">ورودی‌های انتخاب‌شده</h3><div id="inDock"></div></div>
+    <div class="dockp"><h3 data-i18n="dock.outputs">خروجی‌های انتخاب‌شده</h3><div id="outDock"></div></div>
+    <div class="dockp"><h3 data-i18n="dock.traces">فعال‌ترین مسیرها</h3><div id="traceDock"></div></div>
+    <div class="dockp"><h3>Activity</h3><canvas id="chart"></canvas></div>
+  </div>
+</main>
+
+<aside class="side right">
+  <div class="head"><b data-i18n="right.head_title">Inspector و راهنمای فارسی</b><small data-i18n="right.head_sub">Facts vs Simulation</small></div>
+  <div class="tabs">
+    <button class="tab on" data-right="neuronPane" data-i18n="tabs.neuron">نورون</button><button class="tab" data-right="edgePane" data-i18n="tabs.edge">اتصال</button><button class="tab" data-right="simPane" data-i18n="tabs.sim">شبیه‌ساز</button><button class="tab" data-right="researchPane" data-i18n="tabs.research">راهنما</button>
+  </div>
+
+  <div class="pane on" id="neuronPane">
+    <div class="section"><h3 data-i18n="neuron.id_title">شناسه و Annotation</h3>
+      <div class="row"><span>Root ID</span><div class="mono" id="nId">—</div></div>
+      <div class="row"><span>Label</span><div id="nLabel">—</div></div>
+      <div class="row"><span>Processed</span><div id="nProcessed">—</div></div>
+      <div class="row"><span>Position</span><div class="mono" id="nCoord">—</div></div>
+      <div class="row"><span>SWC</span><div id="swcAvailable">—</div></div>
+      <div class="tags" id="nTags"></div>
+    </div>
+    <div class="section"><h3 data-i18n="neuron.explain_title">توضیح فارسی عملکرد</h3>
+      <div class="row"><span>Role</span><b id="explainRole">—</b></div>
+      <div id="explainText" class="detail"></div><div id="explainEvidence" class="detail" style="margin-top:5px"></div>
+      <div id="explainCaveat" class="note" style="margin-top:6px"></div>
+    </div>
+    <div class="section"><h3 data-i18n="neuron.connectivity_title">Connectivity</h3>
+      <div class="kpis"><div class="kpi"><small>Input partners</small><b id="inP">0</b></div><div class="kpi"><small>Input synapses</small><b id="inS">0</b></div><div class="kpi"><small>Output partners</small><b id="outP">0</b></div><div class="kpi"><small>Output synapses</small><b id="outS">0</b></div></div>
+      <div class="grid2" style="margin-top:5px"><button class="btn" id="allInBtn" data-i18n="neuron.all_in">همه ورودی‌ها</button><button class="btn" id="allOutBtn" data-i18n="neuron.all_out">همه خروجی‌ها</button></div>
+      <div id="connectionList"></div>
+    </div>
+    <div class="section"><h3 data-i18n="neuron.neuropils_title">Neuropils</h3><div id="neuropils"></div></div>
+    <div class="section"><h3 data-i18n="neuron.swc_title">SWC کامل</h3><button class="btn violet full" id="loadSwcBtn" data-i18n="neuron.swc_load">بارگذاری مورفولوژی دقیق</button><canvas id="swcMini"></canvas></div>
+    <div class="section"><h3 data-i18n="neuron.map_add_title">افزودن به Body Map</h3><select class="select full" id="mapSelect"></select><button class="btn green full" id="mapAddBtn" data-i18n="neuron.map_add_btn" style="margin-top:5px">افزودن نورون انتخابی</button></div>
+  </div>
+
+  <div class="pane" id="edgePane">
+    <div class="section"><h3 data-i18n="edge.title">Connection Inspector</h3>
+      <div class="row"><span>Pre</span><div class="mono" id="ePre">—</div></div>
+      <div class="row"><span>Post</span><div class="mono" id="ePost">—</div></div>
+      <div class="row"><span>Synapses</span><div class="mono" id="eWeight">—</div></div>
+      <div class="row"><span>NT</span><div id="eNt">—</div></div>
+      <div class="row"><span>Reciprocal</span><div id="eRecip">—</div></div>
+      <div class="row"><span>Plastic ×</span><div class="mono" id="ePlastic">1.000</div></div>
+      <div class="grid2"><button class="btn" id="preBtn" data-i18n="edge.open_pre">باز کردن Pre</button><button class="btn" id="postBtn" data-i18n="edge.open_post">باز کردن Post</button></div>
+      <button class="btn primary full" id="synBtn" data-i18n="edge.syn_coords" style="margin-top:5px">مختصات واقعی سیناپس‌ها</button>
+      <canvas id="synCanvas"></canvas><div id="synMeta" class="detail"></div>
+    </div>
+  </div>
+
+  <div class="pane" id="simPane">
+    <div class="section"><h3 data-i18n="sim.title">دینامیک شبکه</h3>
+      <select class="select full" id="simModel"><option value="rate" selected>Rate Model — روان</option><option value="lif">LIF Spiking — آزمایشی</option></select>
+      <div class="ctrl"><div class="ctrlTop"><span>Gain</span><b id="gainV">1.00</b></div><input id="gain" type="range" min="0" max="3" step=".02" value="1"></div>
+      <div class="ctrl"><div class="ctrlTop"><span>Leak</span><b id="leakV">1.20</b></div><input id="leak" type="range" min=".2" max="4" step=".02" value="1.2"></div>
+      <div class="ctrl"><div class="ctrlTop"><span>Threshold</span><b id="thrV">0.75</b></div><input id="thr" type="range" min=".2" max="1.5" step=".01" value=".75"></div>
+      <div class="ctrl"><div class="ctrlTop"><span>Noise</span><b id="noiseV">0.025</b></div><input id="noise" type="range" min="0" max=".3" step=".005" value=".025"></div>
+      <div class="ctrl"><div class="ctrlTop"><span>Speed</span><b id="speedV">1.0×</b></div><input id="speed" type="range" min=".2" max="5" step=".1" value="1"></div>
+      <div class="ctrl"><div class="ctrlTop"><span>Learning rate</span><b id="learnRateV">0.030</b></div><input id="learnRate" type="range" min="0" max=".15" step=".005" value=".03"></div>
+      <div class="ctrl"><div class="ctrlTop"><span>Plastic decay</span><b id="learnDecayV">0.001</b></div><input id="learnDecay" type="range" min="0" max=".02" step=".001" value=".001"></div>
+      <div class="grid2"><button class="btn primary" id="stimNodeBtn" data-i18n="sim.stim">⚡ تحریک نورون</button><button class="btn red" id="resetSimBtn" data-i18n="sim.reset">ریست شبکه</button></div>
+      <div class="detail" id="motorRead" style="margin-top:6px">F 0 · L 0 · R 0</div>
+      <div class="note" data-i18n="sim.note" style="margin-top:6px">Fixed-step = 1/120s. توپولوژی و synapse count واقعی‌اند؛ LIF/Rate و plasticity مدل آزمایشی‌اند.</div>
+    </div>
+  </div>
+
+  <div class="pane" id="researchPane">
+    <div class="section"><h3 data-i18n="research.read_title">چطور این پروژه را بخوانیم؟</h3>
+      <div class="note" data-i18n="research.read_body"><b>واقعی از دیتاست:</b> Root ID، Label، Tag، connection، synapse count، NT فیلد connection، Neuropil، SWC و نقاط سیناپسی.<br><br><b>مدل آزمایشی:</b> membrane dynamics، sign عملکردی، sensory mapping، motor decoding و reward plasticity.<br><br>روشن شدن SWC در Atlas یعنی «فعالیت مدل روی نورونی که اسکلت واقعی‌اش از SWC آمده»، نه ثبت فیزیولوژیک واقعی.</div>
+    </div>
+    <div class="section"><h3 data-i18n="research.atlas_title">Full Brain SWC Atlas</h3><div class="note" data-i18n="research.atlas_note">ساخت Atlas می‌تواند روی دیسک بزرگ زمان‌بر باشد و حالا Progress/ETA دارد. برای اجرای Task لازم نیست منتظرش بمانی.</div><div class="detail" data-i18n="research.atlas_detail">Atlas از همه فایل‌های SWC یک LOD فشرده می‌سازد. پس‌زمینه خاکستری کل سیم‌کشی مورفولوژیک را نشان می‌دهد و SWC نورون‌های فعال به‌صورت روشن روی آن Overlay می‌شوند. برای نورون انتخابی، فایل SWC اصلی با رزولوشن بسیار بالاتر خوانده می‌شود.</div></div>
+    <div class="section"><h3 data-i18n="research.perf_title">Performance</h3><div class="detail" data-i18n="research.perf_detail">برای گراف تعاملی تا ۱۰هزار نورون قابل درخواست است. برای کل مغز از Atlas WebGL استفاده می‌شود چون نمایش همزمان ۱۳۹هزار SWC کامل در Canvas معمولی عملی نیست.</div></div>
+  </div>
+</aside>
+</div>
+</div>
+<script src="/static/i18n.js"></script>
+<script src="/static/atlas.js"></script>
+<script src="/static/flight.js"></script>
+<script src="/static/lab.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

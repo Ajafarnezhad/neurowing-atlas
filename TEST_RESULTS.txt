@@ -1,0 +1,26 @@
+FlyBrain Learning Lab 3.1.1 - validation
+Date: 2026-09-14
+
+[Python syntax]
+PASS
+
+[JavaScript syntax]
+PASS
+
+[Flight learning tests]
+light {"baseline":0,"test":1,"error":0.0023002070005821965,"time":4.458333333333345}
+food {"baseline":1,"test":1,"error":0.0044936667156779755,"time":4.350000000000006}
+odor {"baseline":1,"test":1,"error":0.011925936290699522,"time":0.5250000000000006}
+wind {"baseline":0,"test":1,"error":0.0020840842126739405,"time":4.29166666666667}
+heat {"baseline":1,"test":1,"error":0.003667270012102232,"time":4.408333333333342}
+touch {"baseline":1,"test":1,"error":0.0005505630917726795,"time":4.42500000000001}
+slalom {"baseline":0.25,"test":1,"error":0.31225122089933616,"time":22.14166666666605}
+delivery {"baseline":0.3333333333333333,"test":1,"error":0.0006449795933792388,"time":5.425000000000059}
+return {"baseline":0.5,"test":1,"error":0.0027640451360514784,"time":9.558333333333431}
+switch {"baseline":0,"test":1,"error":0.002838619020254121,"time":9.208333333333451}
+stop {"baseline":1,"test":1,"error":0.0037229609155530856,"time":6.341666666666772}
+eight {"baseline":0.015384615384615385,"test":1,"error":0.0001831486791358252,"time":31.091666666665542}
+heart {"baseline":0.046153846153846156,"test":1,"error":0.00010337168216549911,"time":30.99999999999888}
+letter {"baseline":0.2,"test":1,"error":0.00019226641163135605,"time":15.249999999999774}
+message {"baseline":0.019230769230769232,"test":1,"error":0.005393367365169882,"time":78.01666666667482}
+PASS: 15 tasks, frozen evaluation, persistent weights, bounded dynamics, wind and writing.
